@@ -1,24 +1,42 @@
 <html>
     <head>
+        <link rel="stylesheet" href="style.css" />
         <script src="main.js" type="application/javascript" defer></script>
     </head>
     <body>
-        <h1>Linear Algebra Canvas</h1>
-        <table>
+        <table id="header-table">
             <tr>
-                <td><input type="number" id="m11" value="1"/></td>
-                <td><input type="number" id="m12" value="0"/></td>
-            </tr>
-            <tr>
-                <td><input type="number" id="m21" value="0"/></td>
-                <td><input type="number" id="m22" value="1"/></td>
+                <td>
+                    <h1>Linear Algebra Canvas</h1>
+                </td>
+                <td>
+                    <div id="header-spacer"></div>
+                </td>
+                <td>
+                    <table id="standard-matrix">
+                        <tr>
+                            <td><input type="number" id="m11" value="1"/></td>
+                            <td><input type="number" id="m12" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><input type="number" id="m21" value="0"/></td>
+                            <td><input type="number" id="m22" value="1"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <label for="render-mode">Control Mode: </label>
+                    <select id="render-mode">
+                        <option value="edit">Edit</option>
+                        <option value="render">Render</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="button" id="clear-points" value="Clear Points" />
+                    <input type="button" id="save-transformation" value="Save Transformation" />
+                </td>
             </tr>
         </table>
-        <select id="render-mode">
-            <option value="edit">Edit</option>
-            <option value="render">Render</option>
-        </select>
-        <input type="button" id="clear-points" value="Clear Points">
         <div>
             <canvas id="plane" width="800" height="600" style="border-width: 1px">Canvas not working.</canvas>
         </div>

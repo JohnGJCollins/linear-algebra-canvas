@@ -4,6 +4,7 @@ let m21 = document.getElementById("m21");
 let m22 = document.getElementById("m22");
 let renderMode = document.getElementById("render-mode");
 let clearButton = document.getElementById("clear-points");
+let saveTransformationButton = document.getElementById("save-transformation");
 let plane = document.getElementById("plane");
 let context = plane.getContext("2d");
 
@@ -68,9 +69,19 @@ if(context.fill) {
         centerPosition = {x: 0, y: 0};
         render();
     });
+    saveTransformationButton.addEventListener("click", () => {
+        points = points.map(transformPoint);
+        m11.value = 1;
+        m12.value = 0;
+        m21.value = 0;
+        m22.value = 1;
+        render();
+    });
 }
 
 function render() {
+    plane.height = window.innerHeight - 100;
+    plane.width = window.innerWidth;
     context.clearRect(0, 0, plane.width, plane.height);
 
     drawAxes();
@@ -86,7 +97,7 @@ function render() {
         return;
     }
 
-    let transformed = points.map(transformPoint);
+    let transformed = points.map(adjustPoint);
 
     for(let i = 0; i < points.length - 1; i++) {
         drawLine(transformed[i], transformed[i + 1]);
@@ -258,5 +269,14 @@ function transformPoint(point) {
     }
 
     let matrix = [[m11.value || 0, m12.value || 0], [m21.value || 0, m22.value || 0]];
-    return {x: point.x * matrix[0][0] + point.y * matrix[0][1] - centerPosition.x, y: point.x * matrix[1][0] + point.y * matrix[1][1] - centerPosition.y};
+    return {x: point.x * matrix[0][0] + point.y * matrix[0][1], y: point.x * matrix[1][0] + point.y * matrix[1][1]};
+}
+
+function adjustPoint(point) {
+    if(renderMode.value === "edit") {
+        return point;
+    }
+
+    let transformed = transformPoint(point);
+    return {x: transformed.x - centerPosition.x, y: transformed.y - centerPosition.y};
 }
