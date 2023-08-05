@@ -24,16 +24,38 @@ select {
     background-color: #1d5b79;
     margin: 0px;
     text-align: center;
+    vertical-align: middle;
 }
 
 #home-button-column {
     width: 100px;
 }
 
+#title {
+    font-size: 40px;
+}
+
 #buffer1 {
     width: 100px;
 }
 
-#title-column {
-    vertical-align: middle;
+#matrix-label-column {
+    text-align: right;
+    width: 300px;
+}
+
+#left-bracket-wrapper {
+    text-align: right;
+}
+
+#right-bracket-wrapper {
+    text-align: left;
+}
+
+#matrix-bracket {
+    font-size: 90px;
+}
+
+#matrix {
+    margin: auto;
 }

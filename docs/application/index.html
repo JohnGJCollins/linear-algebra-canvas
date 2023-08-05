@@ -13,13 +13,19 @@
                     <div id="buffer1"></div>
                 </td>
                 <td id="title-column">
-                    <h1>Linear Algebra Canvas</h1>
+                    <p id="title">Linear Algebra Canvas</h1>
                 </td>
                 <td>
                     <div id="buffer1"></div>
                 </td>
-                <td>
-                    <table id="standard-matrix">
+                <td id="matrix-label-column">
+                    <label for="m11">Transformation Matrix: </label>
+                </td>
+                <td id="left-bracket-wrapper">
+                    <p id="matrix-bracket">[</p>
+                </td>
+                <td id="matrix-wrapper">
+                    <table id="matrix">
                         <tr>
                             <td><input type="number" id="m11" value="1"/></td>
                             <td><input type="number" id="m12" value="0"/></td>
@@ -28,14 +34,17 @@
                         <tr>
                             <td><input type="number" id="m21" value="0"/></td>
                             <td><input type="number" id="m22" value="1"/></td>
-                            <td><input type="number" id="m13" value="0" hidden disabled/></td>
+                            <td><input type="number" id="m23" value="0" hidden disabled/></td>
                         </tr>
                         <tr>
-                            <td><input type="number" id="m31" value="0" hidden disabled></td>
-                            <td><input type="number" id="m32" value="0" hidden disabled></td>
-                            <td><input type="number" id="m33" value="1" hidden disabled></td>
+                            <td><input type="number" id="m31" value="0" hidden disabled readonly></td>
+                            <td><input type="number" id="m32" value="0" hidden disabled readonly></td>
+                            <td><input type="number" id="m33" value="1" hidden disabled readonly></td>
                         </tr>
                     </table>
+                </td>
+                <td id="right-bracket-wrapper">
+                    <p id="matrix-bracket">]</p>
                 </td>
                 <td>
                     <label for="render-mode">Control Mode: </label>
@@ -43,7 +52,18 @@
                         <option value="edit">Edit</option>
                         <option value="render">Render</option>
                     </select>
+                </td>
+                <td>
+                    <label for="transformation-mode">Transformation Mode: </label>
+                    <select id="transformation-mode">
+                        <option value="linear">Linear</option>
+                        <option value="affine">Affine</option>
+                    </select>
+                </td>
+                <td>
                     <input type="button" id="clear-points" value="Clear Points" />
+                </td>
+                <td>
                     <input type="button" id="apply-transformation" value="Apply Transformation" />
                 </td>
             </tr>

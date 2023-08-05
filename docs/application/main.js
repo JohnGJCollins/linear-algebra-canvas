@@ -9,6 +9,7 @@ let m31 = document.getElementById("m31");
 let m32 = document.getElementById("m32");
 let m33 = document.getElementById("m33");
 let renderMode = document.getElementById("render-mode");
+let transformationMode = document.getElementById("transformation-mode");
 let clearButton = document.getElementById("clear-points");
 let applyTransformationButton = document.getElementById("apply-transformation");
 let plane = document.getElementById("plane");
@@ -24,6 +25,25 @@ let points = [];
 let centerPosition = {x: 0, y: 0};
 let pan = false;
 let panLast = null;
+
+transformationMode.addEventListener("input", () => {
+    let isLinear = transformationMode.value === "linear"; 
+    
+    m13.hidden = isLinear;
+    m13.disabled = isLinear;
+
+    m23.hidden = isLinear;
+    m23.disabled = isLinear;
+
+    m31.hidden = isLinear;
+    m31.disabled = isLinear;
+
+    m32.hidden = isLinear;
+    m32.disabled = isLinear;
+
+    m33.hidden = isLinear;
+    m33.disabled = isLinear;
+});
 
 if(context.fill) {
     render();
@@ -64,12 +84,18 @@ if(context.fill) {
 
     m11.addEventListener("input", render);
     m12.addEventListener("input", render);
+    m13.addEventListener("input", render);
     m21.addEventListener("input", render);
     m22.addEventListener("input", render);
+    m23.addEventListener("input", render);
+    m31.addEventListener("input", render);
+    m32.addEventListener("input", render);
+    m33.addEventListener("input", render);
     renderMode.addEventListener("input", () => {
         centerPosition = {x: 0, y: 0};
         render();
     });
+    transformationMode.addEventListener("input", render);
     clearButton.addEventListener("click", () => {
         points = [];
         centerPosition = {x: 0, y: 0};
@@ -79,8 +105,13 @@ if(context.fill) {
         points = points.map(transformPoint);
         m11.value = 1;
         m12.value = 0;
+        m13.value = 0;
         m21.value = 0;
         m22.value = 1;
+        m23.value = 0;
+        m31.value = 0;
+        m32.value = 0;
+        m33.value = 1;
         render();
     });
     addEventListener("resize", render);
@@ -203,8 +234,23 @@ function drawLine(start, end) {
 }
 
 function transformPoint(point) {
-    let matrix = [[m11.value || 0, m12.value || 0], [m21.value || 0, m22.value || 0]];
-    return {x: point.x * matrix[0][0] + point.y * matrix[0][1], y: point.x * matrix[1][0] + point.y * matrix[1][1]};
+    if(transformationMode.value === "linear") {
+        let matrix = [[m11.value || 0, m12.value || 0], [m21.value || 0, m22.value || 0]];
+        return {
+            x: point.x * matrix[0][0] + point.y * matrix[0][1],
+            y: point.x * matrix[1][0] + point.y * matrix[1][1]
+        };
+    }
+
+    let matrix = [
+        [Number(m11.value) || 0, Number(m12.value) || 0, Number(m13.value) || 0],
+        [Number(m21.value) || 0, Number(m22.value) || 0, Number(m23.value) || 0],
+        [Number(m31.value) || 0, Number(m32.value) || 0, Number(m33.value) || 0]
+    ];
+    return {
+        x: point.x * matrix[0][0] + point.y * matrix[0][1] + 100 * matrix[0][2],
+        y: point.x * matrix[1][0] + point.y * matrix[1][1] - 100 * matrix[1][2] // Translation is negative because the canvas is upside-down relative to standard Cartesian coordinates
+    };
 }
 
 function adjustPoint(point) {
