@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Roboto Medium';
-    src: url(../../assets/Roboto-Medium.ttf);
+    src: url('../assets/Roboto-Medium.ttf');
 }
 
 body {
@@ -26,14 +26,14 @@ select {
     text-align: center;
 }
 
-#header-table > tr > td {
-    vertical-align: middle;
-}
-
 #home-button-column {
     width: 100px;
 }
 
 #buffer1 {
     width: 100px;
+}
+
+#title-column {
+    vertical-align: middle;
 }
