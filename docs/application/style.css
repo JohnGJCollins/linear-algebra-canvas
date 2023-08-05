@@ -1,8 +1,39 @@
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url(/assets/Roboto-Medium.ttf);
+}
+
 body {
     margin: 0px;
     overflow: hidden;
+    font-family: 'Roboto Medium';
+    color: white;
+}
+
+input {
+    font-family: 'Roboto Medium';
+}
+
+select {
+    font-family: 'Roboto Medium';
 }
 
 #header-table {
     height: 100px;
+    width: 100%;
+    background-color: #1d5b79;
+    margin: 0px;
+    text-align: center;
+}
+
+#header-table > tr > td {
+    vertical-align: middle;
+}
+
+#home-button-column {
+    width: 100px;
+}
+
+#buffer1 {
+    width: 100px;
 }

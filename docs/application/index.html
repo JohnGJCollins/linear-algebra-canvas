@@ -6,21 +6,34 @@
     <body>
         <table id="header-table">
             <tr>
+                <td id="home-button-column">
+                    <a href="/docs/index.html"><img src="/assets/home-icon.png" width="90px" height="90px"/></a>
+                </td>
+                <td>
+                    <div id="buffer1"></div>
+                </td>
                 <td>
                     <h1>Linear Algebra Canvas</h1>
                 </td>
                 <td>
-                    <div id="header-spacer"></div>
+                    <div id="buffer1"></div>
                 </td>
                 <td>
                     <table id="standard-matrix">
                         <tr>
                             <td><input type="number" id="m11" value="1"/></td>
                             <td><input type="number" id="m12" value="0"/></td>
+                            <td><input type="number" id="m13" value="0" hidden disabled/></td>
                         </tr>
                         <tr>
                             <td><input type="number" id="m21" value="0"/></td>
                             <td><input type="number" id="m22" value="1"/></td>
+                            <td><input type="number" id="m13" value="0" hidden disabled/></td>
+                        </tr>
+                        <tr>
+                            <td><input type="number" id="m31" value="0" hidden disabled></td>
+                            <td><input type="number" id="m32" value="0" hidden disabled></td>
+                            <td><input type="number" id="m33" value="1" hidden disabled></td>
                         </tr>
                     </table>
                 </td>
@@ -30,10 +43,8 @@
                         <option value="edit">Edit</option>
                         <option value="render">Render</option>
                     </select>
-                </td>
-                <td>
                     <input type="button" id="clear-points" value="Clear Points" />
-                    <input type="button" id="save-transformation" value="Save Transformation" />
+                    <input type="button" id="apply-transformation" value="Apply Transformation" />
                 </td>
             </tr>
         </table>

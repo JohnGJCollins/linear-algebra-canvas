@@ -1,10 +1,16 @@
+let headerTable = document.getElementById("header-table");
 let m11 = document.getElementById("m11");
 let m12 = document.getElementById("m12");
+let m13 = document.getElementById("m13");
 let m21 = document.getElementById("m21");
 let m22 = document.getElementById("m22");
+let m23 = document.getElementById("m23");
+let m31 = document.getElementById("m31");
+let m32 = document.getElementById("m32");
+let m33 = document.getElementById("m33");
 let renderMode = document.getElementById("render-mode");
 let clearButton = document.getElementById("clear-points");
-let saveTransformationButton = document.getElementById("save-transformation");
+let applyTransformationButton = document.getElementById("apply-transformation");
 let plane = document.getElementById("plane");
 let context = plane.getContext("2d");
 
@@ -69,7 +75,7 @@ if(context.fill) {
         centerPosition = {x: 0, y: 0};
         render();
     });
-    saveTransformationButton.addEventListener("click", () => {
+    applyTransformationButton.addEventListener("click", () => {
         points = points.map(transformPoint);
         m11.value = 1;
         m12.value = 0;
@@ -77,10 +83,11 @@ if(context.fill) {
         m22.value = 1;
         render();
     });
+    addEventListener("resize", render);
 }
 
 function render() {
-    plane.height = window.innerHeight - 100;
+    plane.height = window.innerHeight - headerTable.offsetHeight;
     plane.width = window.innerWidth;
     context.clearRect(0, 0, plane.width, plane.height);
 
@@ -89,15 +96,15 @@ function render() {
     context.fillStyle = pointColor;
     context.lineWidth = lineWidth;
     context.strokeStyle = lineColor;
+    
+    let transformed = renderMode.value === "edit" ? points : points.map(adjustPoint);
 
     if(!points.length) {
         return;
     } else if(points.length === 1) {
-        drawPoint(transformPoint(points[0]));
+        drawPoint(transformed[0]);
         return;
     }
-
-    let transformed = points.map(adjustPoint);
 
     for(let i = 0; i < points.length - 1; i++) {
         drawLine(transformed[i], transformed[i + 1]);
@@ -123,7 +130,7 @@ function drawAxes() {
     }
 
     context.strokeStyle = "rgb(0, 0, 0)";
-    context.lineWidth = 1;
+    context.lineWidth = 2;
 
     // x-axis line
     context.beginPath();
@@ -182,74 +189,6 @@ function drawAxes() {
     context.moveTo(axisDisplacement, plane.height - 1);
     context.lineTo(axisDisplacement + arrowRadius, plane.height - 1 - arrowRadius);
     context.stroke();
-
-        // if(centerPosition.y + plane.height / 2 < 0) {
-
-        // } else if(centerPosition.y - plane.height / 2 > plane.height) {
-            
-        // } else {
-        //     // x-axis line
-        //     context.beginPath();
-        //     context.moveTo(0, plane.height / 2 - centerPosition.y);
-        //     context.lineTo(plane.width, plane.height / 2 - centerPosition.y);
-        //     context.stroke();
-
-        //     // left arrow
-        //     context.beginPath();
-        //     context.moveTo(0, plane.height / 2 - centerPosition.y);
-        //     context.lineTo(arrowRadius, plane.height / 2 - centerPosition.y - arrowRadius);
-        //     context.stroke();
-
-        //     context.beginPath();
-        //     context.moveTo(0, plane.height / 2 - centerPosition.y);
-        //     context.lineTo(arrowRadius, plane.height / 2 - centerPosition.y + arrowRadius);
-        //     context.stroke();
-
-        //     // right arrow
-        //     context.beginPath();
-        //     context.moveTo(plane.width, plane.height / 2 - centerPosition.y);
-        //     context.lineTo(plane.width - arrowRadius, plane.height / 2 - centerPosition.y - arrowRadius);
-        //     context.stroke();
-
-        //     context.beginPath();
-        //     context.moveTo(plane.width, plane.height / 2 - centerPosition.y);
-        //     context.lineTo(plane.width - arrowRadius, plane.height / 2 - centerPosition.y + arrowRadius);
-        //     context.stroke();
-        // }
-
-        // if(centerPosition.x + plane.width / 2 < 0) {
-
-        // } else if(centerPosition.x - plane.width / 2 > plane.width) {
-            
-        // } else {
-        //     // y-axis line
-        //     context.beginPath();
-        //     context.moveTo(plane.width / 2 - centerPosition.x, 0);
-        //     context.lineTo(plane.width / 2 - centerPosition.x, plane.height);
-        //     context.stroke();
-
-        //     // top arrow
-        //     context.beginPath();
-        //     context.moveTo(plane.width / 2 - centerPosition.x, 0);
-        //     context.lineTo(plane.width / 2 - centerPosition.x - arrowRadius, arrowRadius);
-        //     context.stroke();
-
-        //     context.beginPath();
-        //     context.moveTo(plane.width / 2 - centerPosition.x, 0);
-        //     context.lineTo(plane.width / 2 - centerPosition.x + arrowRadius, arrowRadius);
-        //     context.stroke();
-
-        //     // bottom arrow
-        //     context.beginPath();
-        //     context.moveTo(plane.width / 2 - centerPosition.x, plane.height);
-        //     context.lineTo(plane.width / 2 - centerPosition.x - arrowRadius, plane.height - arrowRadius);
-        //     context.stroke();
-
-        //     context.beginPath();
-        //     context.moveTo(plane.width / 2 - centerPosition.x, plane.height);
-        //     context.lineTo(plane.width / 2 - centerPosition.x + arrowRadius, plane.height - arrowRadius);
-        //     context.stroke();
-        // }
 }
 
 function drawPoint(point) {
@@ -264,19 +203,11 @@ function drawLine(start, end) {
 }
 
 function transformPoint(point) {
-    if(renderMode.value === "edit") {
-        return point;
-    }
-
     let matrix = [[m11.value || 0, m12.value || 0], [m21.value || 0, m22.value || 0]];
     return {x: point.x * matrix[0][0] + point.y * matrix[0][1], y: point.x * matrix[1][0] + point.y * matrix[1][1]};
 }
 
 function adjustPoint(point) {
-    if(renderMode.value === "edit") {
-        return point;
-    }
-
     let transformed = transformPoint(point);
     return {x: transformed.x - centerPosition.x, y: transformed.y - centerPosition.y};
 }
