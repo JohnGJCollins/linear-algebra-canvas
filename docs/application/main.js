@@ -22,6 +22,7 @@ let lineColor = "rgba(0, 255, 0, 128)";
 let arrowRadius = 5;
 
 let points = [];
+let lines = [];
 let centerPosition = {x: 0, y: 0};
 let pan = false;
 let panLast = null;
@@ -62,6 +63,14 @@ if(context.fill) {
         }
 
         points.push({x: x, y: y});
+
+        if(!e.ctrlKey && points.length >= 2) { // points.length check because you can't connect 2 points with a line if there is only one point
+            lines.push({ // indices instead of pointers so position-adjusted rendering is easier
+                start: points.length - 2,
+                end: points.length - 1
+            });
+        }
+
         render();
     };
 
@@ -98,6 +107,7 @@ if(context.fill) {
     transformationMode.addEventListener("input", render);
     clearButton.addEventListener("click", () => {
         points = [];
+        lines = [];
         centerPosition = {x: 0, y: 0};
         render();
     });
@@ -128,20 +138,12 @@ function render() {
     context.lineWidth = lineWidth;
     context.strokeStyle = lineColor;
     
-    let transformed = renderMode.value === "edit" ? points : points.map(adjustPoint);
+    let adjusted = renderMode.value === "edit" ? points : points.map(adjustPoint);
 
-    if(!points.length) {
-        return;
-    } else if(points.length === 1) {
-        drawPoint(transformed[0]);
-        return;
-    }
-
-    for(let i = 0; i < points.length - 1; i++) {
-        drawLine(transformed[i], transformed[i + 1]);
-        drawPoint(transformed[i]);   
-    }
-    drawPoint(transformed[transformed.length - 1]);
+    lines.forEach(line => {
+        drawLine(adjusted[line.start], adjusted[line.end]);
+    });
+    adjusted.forEach(drawPoint);
 }
 
 function drawAxes() {
