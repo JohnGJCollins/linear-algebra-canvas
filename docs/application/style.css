@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Roboto Medium';
-    src: url(/assets/Roboto-Medium.ttf);
+    src: url(../../assets/Roboto-Medium.ttf);
 }
 
 body {
