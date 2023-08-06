@@ -12,6 +12,8 @@ body {
 
 input {
     font-family: 'Roboto Medium';
+    height: 20%;
+    width: auto;
 }
 
 select {
@@ -19,29 +21,60 @@ select {
 }
 
 #header-table {
-    height: 100px;
+    height: 8.65%;
     width: 100%;
     background-color: #1d5b79;
     margin: 0px;
     text-align: center;
     vertical-align: middle;
+    font-size: 100%;
+}
+
+#header-table > tbody > tr {
+    height: 100%;
+}
+
+#header-table > tbody > tr > td {
+    height: 100%;
 }
 
 #home-button-column {
-    width: 100px;
+    width: 4%;
+    height: auto;
+    /* aspect-ratio: 1; */
+    /* width: auto; */
+}
+
+#home-button {
+    height: 90%;
+    width: 90%;
+    aspect-ratio: 2;
+}
+
+#title-column {
+    width: 18.5%;
+    height: 100%;
 }
 
 #title {
-    font-size: 40px;
+    font-size: 250%;
+}
+
+#buffer1-wrapper {
+    width: 5%;
 }
 
 #buffer1 {
-    width: 100px;
+    width: 100%;
 }
 
 #matrix-label-column {
     text-align: right;
     width: 300px;
+}
+
+.bracket-wrapper {
+    width: 1%;
 }
 
 #left-bracket-wrapper {
@@ -56,6 +89,30 @@ select {
     font-size: 90px;
 }
 
+#matrix-wrapper {
+    width: 16%;
+}
+
 #matrix {
     margin: auto;
+}
+
+#render-mode-wrapper {
+    width: 8%;
+}
+
+#transformation-mode-wrapper {
+    width: 11%;
+}
+
+#apply-transformation-wrapper {
+    width: 6.63%;
+}
+
+#clear-points-wrapper {
+    width: 4.07%;
+}
+
+#reset-options-wrapper {
+    width: auto;
 }

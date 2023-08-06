@@ -12,6 +12,7 @@ let renderMode = document.getElementById("render-mode");
 let transformationMode = document.getElementById("transformation-mode");
 let clearButton = document.getElementById("clear-points");
 let applyTransformationButton = document.getElementById("apply-transformation");
+let resetOptionsButton = document.getElementById("reset-options");
 let plane = document.getElementById("plane");
 let context = plane.getContext("2d");
 
@@ -27,23 +28,25 @@ let centerPosition = {x: 0, y: 0};
 let pan = false;
 let panLast = null;
 
-transformationMode.addEventListener("input", () => {
-    let isLinear = transformationMode.value === "linear"; 
-    
-    m13.hidden = isLinear;
-    m13.disabled = isLinear;
+loadDrawing();
+loadOptions();
+updateMatrix();
 
-    m23.hidden = isLinear;
-    m23.disabled = isLinear;
-
-    m31.hidden = isLinear;
-    m31.disabled = isLinear;
-
-    m32.hidden = isLinear;
-    m32.disabled = isLinear;
-
-    m33.hidden = isLinear;
-    m33.disabled = isLinear;
+transformationMode.addEventListener("input", updateMatrix);
+resetOptionsButton.addEventListener("click", () => {
+    m11.value = 1;
+    m12.value = 0;
+    m13.value = 0;
+    m21.value = 0;
+    m22.value = 1;
+    m23.value = 0;
+    m31.value = 0;
+    m32.value = 0;
+    m33.value = 1;
+    renderMode.value = "edit";
+    transformationMode.value = "linear";
+    updateMatrix();
+    saveOptions();
 });
 
 if(context.fill) {
@@ -72,6 +75,7 @@ if(context.fill) {
         }
 
         render();
+        saveDrawing();
     };
 
     window.onmouseup = function(e) {
@@ -106,10 +110,11 @@ if(context.fill) {
     });
     transformationMode.addEventListener("input", render);
     clearButton.addEventListener("click", () => {
+        centerPosition = {x: 0, y: 0};
         points = [];
         lines = [];
-        centerPosition = {x: 0, y: 0};
         render();
+        saveDrawing();
     });
     applyTransformationButton.addEventListener("click", () => {
         points = points.map(transformPoint);
@@ -123,7 +128,22 @@ if(context.fill) {
         m32.value = 0;
         m33.value = 1;
         render();
+        saveOptions();
     });
+
+    m11.addEventListener("input", saveOptions);
+    m12.addEventListener("input", saveOptions);
+    m13.addEventListener("input", saveOptions);
+    m21.addEventListener("input", saveOptions);
+    m22.addEventListener("input", saveOptions);
+    m23.addEventListener("input", saveOptions);
+    m31.addEventListener("input", saveOptions);
+    m32.addEventListener("input", saveOptions);
+    m33.addEventListener("input", saveOptions);
+    renderMode.addEventListener("input", saveOptions);
+    transformationMode.addEventListener("input", saveOptions);
+    applyTransformationButton.addEventListener("click", saveDrawing);
+
     addEventListener("resize", render);
 }
 
@@ -258,4 +278,113 @@ function transformPoint(point) {
 function adjustPoint(point) {
     let transformed = transformPoint(point);
     return {x: transformed.x - centerPosition.x, y: transformed.y - centerPosition.y};
+}
+
+function updateMatrix() {
+    let isLinear = transformationMode.value === "linear"; 
+    
+    m13.hidden = isLinear;
+    m13.disabled = isLinear;
+
+    m23.hidden = isLinear;
+    m23.disabled = isLinear;
+
+    m31.hidden = isLinear;
+    m31.disabled = isLinear;
+
+    m32.hidden = isLinear;
+    m32.disabled = isLinear;
+
+    m33.hidden = isLinear;
+    m33.disabled = isLinear;
+}
+
+function saveOptions() {
+    if(!localStorage) {
+        return;
+    }
+
+    let options = {
+        m11: m11.value,
+        m12: m12.value,
+        m13: m13.value,
+        m21: m21.value,
+        m22: m22.value,
+        m23: m23.value,
+        m31: m31.value,
+        m32: m32.value,
+        m33: m33.value,
+        renderMode: renderMode.value,
+        transformationMode: transformationMode.value,
+    };
+
+    try {
+        localStorage.setItem("options", JSON.stringify(options));
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+function loadOptions() {
+    if(!localStorage) {
+        return;
+    }
+
+    try {
+        let options = JSON.parse(localStorage.getItem("options"));
+
+        if(!options) {
+            return;
+        }
+
+        m11.value = options.m11;
+        m12.value = options.m12;
+        m13.value = options.m13;
+        m21.value = options.m21;
+        m22.value = options.m22;
+        m23.value = options.m23;
+        m31.value = options.m31;
+        m32.value = options.m32;
+        m33.value = options.m33;
+        renderMode.value = options.renderMode;
+        transformationMode.value = options.transformationMode;
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+function saveDrawing() {
+    if(!localStorage) {
+        return;
+    }
+
+    let drawing = {
+        points: points,
+        lines: lines,
+    };
+
+    try {
+        localStorage.setItem("drawing", JSON.stringify(drawing));
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+function loadDrawing() {
+    if(!localStorage) {
+        return;
+    }
+
+    try {
+        let drawing = JSON.parse(localStorage.getItem("drawing"));
+
+        if(!drawing) {
+            return;
+        }
+
+        points = drawing.points;
+        lines = drawing.lines;
+    } catch(e) {
+        console.log(e);
+    }
 }

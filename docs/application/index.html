@@ -7,21 +7,21 @@
         <table id="header-table">
             <tr>
                 <td id="home-button-column">
-                    <a href="../index.html"><img src="../assets/home-icon.png" width="90px" height="90px"/></a>
+                    <a href="../index.html"><img id="home-button" src="../assets/home-icon.png" width="90px" height="90px"/></a>
                 </td>
-                <td>
+                <td id="buffer1-wrapper">
                     <div id="buffer1"></div>
                 </td>
                 <td id="title-column">
                     <p id="title">Linear Algebra Canvas</h1>
                 </td>
-                <td>
+                <td id="buffer1-wrapper">
                     <div id="buffer1"></div>
                 </td>
                 <td id="matrix-label-column">
                     <label for="m11">Transformation Matrix: </label>
                 </td>
-                <td id="left-bracket-wrapper">
+                <td id="left-bracket-wrapper" class="bracket-wrapper">
                     <p id="matrix-bracket">[</p>
                 </td>
                 <td id="matrix-wrapper">
@@ -43,28 +43,31 @@
                         </tr>
                     </table>
                 </td>
-                <td id="right-bracket-wrapper">
+                <td id="right-bracket-wrapper" class="bracket-wrapper">
                     <p id="matrix-bracket">]</p>
                 </td>
-                <td>
+                <td id="render-mode-wrapper">
                     <label for="render-mode">Control Mode: </label>
                     <select id="render-mode">
                         <option value="edit">Edit</option>
                         <option value="render">Render</option>
                     </select>
                 </td>
-                <td>
+                <td id="transformation-mode-wrapper">
                     <label for="transformation-mode">Transformation Mode: </label>
                     <select id="transformation-mode">
                         <option value="linear">Linear</option>
                         <option value="affine">Affine</option>
                     </select>
                 </td>
-                <td>
+                <td id="apply-transformation-wrapper">
+                    <input type="button" id="apply-transformation" value="Apply Transformation" />
+                </td>
+                <td id="clear-points-wrapper">
                     <input type="button" id="clear-points" value="Clear Points" />
                 </td>
-                <td>
-                    <input type="button" id="apply-transformation" value="Apply Transformation" />
+                <td id="reset-options-wrapper">
+                    <input type="button" id="reset-options" value="Reset Options" />
                 </td>
             </tr>
         </table>
