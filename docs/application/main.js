@@ -1,4 +1,5 @@
-let headerTable = document.getElementById("header-table");
+let headerBar = document.getElementById("header-bar");
+let matrixElement = document.getElementById("matrix");
 let m11 = document.getElementById("m11");
 let m12 = document.getElementById("m12");
 let m13 = document.getElementById("m13");
@@ -45,8 +46,10 @@ resetOptionsButton.addEventListener("click", () => {
     m33.value = 1;
     renderMode.value = "edit";
     transformationMode.value = "linear";
+    centerPosition = {x: 0, y: 0};
     updateMatrix();
     saveOptions();
+    render();
 });
 
 if(context.fill) {
@@ -148,7 +151,7 @@ if(context.fill) {
 }
 
 function render() {
-    plane.height = window.innerHeight - headerTable.offsetHeight;
+    plane.height = window.innerHeight - headerBar.offsetHeight;
     plane.width = window.innerWidth;
     context.clearRect(0, 0, plane.width, plane.height);
 
@@ -282,20 +285,22 @@ function adjustPoint(point) {
 
 function updateMatrix() {
     let isLinear = transformationMode.value === "linear"; 
+
+    matrixElement.classList = [isLinear ? "m2x2" : "m3x3"];
     
-    m13.hidden = isLinear;
+    m13.parentElement.hidden = isLinear;
     m13.disabled = isLinear;
 
-    m23.hidden = isLinear;
+    m23.parentElement.hidden = isLinear;
     m23.disabled = isLinear;
 
-    m31.hidden = isLinear;
+    m31.parentElement.hidden = isLinear;
     m31.disabled = isLinear;
 
-    m32.hidden = isLinear;
+    m32.parentElement.hidden = isLinear;
     m32.disabled = isLinear;
 
-    m33.hidden = isLinear;
+    m33.parentElement.hidden = isLinear;
     m33.disabled = isLinear;
 }
 
