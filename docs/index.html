@@ -1,10 +1,70 @@
 <html>
     <head>
-
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="./assets/favicon.ico" />
+        <script src="main.js" type="application/javascript" defer></script>
     </head>
     <body>
-        <h1>Linear Algebra Canvas</h1>
-        <h2>(Formerly known as supreme-octo-disco, recommended by GitHub)</h2>
-        <p>Use the application <a href="application/index.html">here</a>.</p>
+        <div id="header-bar">
+            <div id="icon-wrapper">
+                .<a href="https://johngjcollins.github.io"><img id="home-icon" src="./assets/home-icon.png"/></a>.
+            </div>
+            <div class="buffer1"></div>
+            <div id="title-wrapper">
+                <span id="title">Linear Algebra Canvas</span>
+            </div>
+            <div class="buffer1"></div>
+            <div id="matrix-label-wrapper">
+                <label id="matrix-label" for="m11">Transformation Matrix: </label>
+            </div>
+            <div id="left-bracket-wrapper" class="bracket-wrapper">
+                <p class="matrix-bracket">[</p>
+            </div>
+            <div id="matrix-wrapper">
+                <div id="matrix" class="m2x2">
+                        <div class="matrix-entry"><input type="number" id="m11" value="1"/></div>
+                        <div class="matrix-entry"><input type="number" id="m12" value="0"/></div>
+                        <div class="matrix-entry" hidden><input type="number" id="m13" value="0" disabled/></div>
+
+                        <div class="matrix-entry"><input type="number" id="m21" value="0"/></div>
+                        <div class="matrix-entry"><input type="number" id="m22" value="1"/></div>
+                        <div class="matrix-entry" hidden><input type="number" id="m23" value="0" disabled/></div>
+
+                        <div class="matrix-entry" hidden><input type="number" id="m31" value="0" disabled readonly></div>
+                        <div class="matrix-entry" hidden><input type="number" id="m32" value="0" disabled readonly></div>
+                        <div class="matrix-entry" hidden><input type="number" id="m33" value="1" disabled readonly></div>
+                    </tr>
+                </div>
+            </div>
+            <div id="right-bracket-wrapper" class="bracket-wrapper">
+                <p class="matrix-bracket">]</p>
+            </div>
+            <div id="render-mode-wrapper" class="mode-wrapper">
+                <label for="render-mode">Control Mode: </label>
+                <select id="render-mode">
+                    <option value="edit">Edit</option>
+                    <option value="render">Render</option>
+                </select>
+            </div>
+            <div id="transformation-mode-wrapper" class="mode-wrapper">
+                <label for="transformation-mode">Transformation Mode: </label>
+                <select id="transformation-mode">
+                    <option value="linear">Linear</option>
+                    <option value="affine">Affine</option>
+                </select>
+            </div>
+            <div id="apply-transformation-wrapper" class="button-wrapper">
+                .<input type="button" id="apply-transformation" value="Apply Transformation" />.
+            </div>
+            <div id="clear-points-wrapper" class="button-wrapper">
+                .<input type="button" id="clear-points" value="Clear Points" />.
+            </div>
+            <div id="reset-options-wrapper" class="button-wrapper">
+                .<input type="button" id="reset-options" value="Reset Options" />.
+            </div>
+        </div>
+        <div>
+            <canvas id="plane" width="800" height="600" style="border-width: 1px">Canvas not working.</canvas>
+        </div>
     </body>
 </html>
